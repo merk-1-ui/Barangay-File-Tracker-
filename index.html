@@ -1,0 +1,217 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barangay File Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <h2>BarangayTrack</h2>
+        <p>FILE MANAGEMENT</p>
+
+        <nav>
+            <a href="#" class="active" onclick="showPage('dashboard')">Dashboard</a>
+            <a href="#" onclick="showPage('records')">All Records</a>
+        </nav>
+
+        <div class="sidebar-footer">
+            Keep barangay files organized and easy to find.
+        </div>
+    </aside>
+
+    <main class="main">
+
+        <header class="topbar">
+            <div>
+                <p>BARANGAY RECORDS MANAGEMENT</p>
+                <h1 id="pageTitle">Dashboard</h1>
+            </div>
+
+            <button class="add-btn" onclick="openForm()">
+                + Add New File
+            </button>
+        </header>
+
+        <!-- DASHBOARD -->
+        <section id="dashboard">
+
+            <div class="welcome">
+                <h2>Good day!</h2>
+                <p>Overview of the barangay's tracked files.</p>
+            </div>
+
+            <div class="stats">
+
+                <div class="stat-card">
+                    <p>Total Files</p>
+                    <h2 id="totalCount">0</h2>
+                </div>
+
+                <div class="stat-card">
+                    <p>Pending</p>
+                    <h2 id="pendingCount">0</h2>
+                </div>
+
+                <div class="stat-card">
+                    <p>Released</p>
+                    <h2 id="releasedCount">0</h2>
+                </div>
+
+                <div class="stat-card">
+                    <p>Categories</p>
+                    <h2 id="categoryCount">0</h2>
+                </div>
+
+            </div>
+
+            <div class="section-heading">
+                <h2>Recently Added Files</h2>
+                <button onclick="showPage('records')">View All</button>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>File Details</th>
+                            <th>Category</th>
+                            <th>Date Received</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="recentTable">
+                        <tr>
+                            <td colspan="4">No files yet.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </section>
+
+        <!-- ALL RECORDS -->
+        <section id="records" class="hidden">
+
+            <div class="toolbar">
+                <input
+                    type="search"
+                    id="searchInput"
+                    placeholder="Search files..."
+                    oninput="renderRecords()"
+                >
+
+                <select id="categoryFilter" onchange="renderRecords()">
+                    <option value="">All Categories</option>
+                    <option>Certificates</option>
+                    <option>Resident Records</option>
+                    <option>Permits and Clearances</option>
+                    <option>Financial Records</option>
+                    <option>Meeting Documents</option>
+                    <option>Correspondence</option>
+                    <option>Other</option>
+                </select>
+
+                <select id="statusFilter" onchange="renderRecords()">
+                    <option value="">All Statuses</option>
+                    <option>Received</option>
+                    <option>In Process</option>
+                    <option>Pending</option>
+                    <option>Released</option>
+                    <option>Archived</option>
+                </select>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>File Details</th>
+                            <th>Category</th>
+                            <th>Date Received</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="recordsTable"></tbody>
+                </table>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- ADD / EDIT FILE FORM -->
+    <div id="fileModal" class="modal">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h2 id="formTitle">Add New File</h2>
+                <button type="button" class="close-btn" onclick="closeForm()">×</button>
+            </div>
+
+            <form id="fileForm">
+
+                <input type="hidden" id="recordId">
+
+                <label>Document Title *</label>
+                <input type="text" id="title" required>
+
+                <label>Control Number</label>
+                <input type="text" id="controlNo">
+
+                <label>Category *</label>
+                <select id="category" required>
+                    <option value="">Select Category</option>
+                    <option>Certificates</option>
+                    <option>Resident Records</option>
+                    <option>Permits and Clearances</option>
+                    <option>Financial Records</option>
+                    <option>Meeting Documents</option>
+                    <option>Correspondence</option>
+                    <option>Other</option>
+                </select>
+
+                <label>Person / Requesting Office</label>
+                <input type="text" id="owner">
+
+                <label>Date Received *</label>
+                <input type="date" id="dateReceived" required>
+
+                <label>Status *</label>
+                <select id="status" required>
+                    <option>Received</option>
+                    <option>In Process</option>
+                    <option>Pending</option>
+                    <option>Released</option>
+                    <option>Archived</option>
+                </select>
+
+                <label>Storage Location</label>
+                <input type="text" id="location" placeholder="Cabinet A - Folder 1">
+
+                <label>Description / Notes</label>
+                <textarea id="notes" rows="3"></textarea>
+
+                <label>Upload Digital File (Optional)</label>
+                <input type="file" id="attachment">
+
+                <div class="form-buttons">
+                    <button type="button" class="cancel-btn" onclick="closeForm()">Cancel</button>
+                    <button type="submit" class="save-btn">Save Record</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
